@@ -85,28 +85,32 @@ cd ${HOME}
   fi
   mkdir go && gzip -dc ${_gopkg} | tar xvf - -C go --strip-components 1
   rm ${_gopkg}
-  sudo chmod 777 -R ${HOME}/go/pkg
+  if [ -e /usr/local/go ] ; then
+    sudo rm -rf /usr/local/go
+  fi
+  sudo mv ${HOME}/go /usr/local/go
+  sudo chmod 777 -R /usr/local/go
 }
 
 : "setup" && {
   if [ -e "${HOME}/.bashrc" ] ; then
     if [[ `cat ${HOME}/.bashrc | grep -e ^GOROOT` ]] ; then
       _line=`cat ${HOME}/.bashrc | grep -e ^GOROOT`
-      sed -i -e "s|${_line}|GOROOT=${HOME}/go|g" ${HOME}/.bashrc
+      sed -i -e "s|${_line}|GOROOT=/usr/local/go|g" ${HOME}/.bashrc
     else
-      echo GOROOT=${HOME}/go >> ${HOME}/.bashrc
+      echo GOROOT=/usr/local/go >> ${HOME}/.bashrc
     fi
     if [[ `cat ${HOME}/.bashrc | grep -e ^GOPATH` ]] ; then
       _line=`cat ${HOME}/.bashrc | grep -e ^GOPATH`
-      sed -i -e "s|${_line}|GOPATH=${HOME}/go/lib|g" ${HOME}/.bashrc
+      sed -i -e "s|${_line}|GOPATH=/usr/local/go/lib|g" ${HOME}/.bashrc
     else
-      echo GOPATH=${HOME}/go/lib >> ${HOME}/.bashrc
+      echo GOPATH=/usr/local/go/lib >> ${HOME}/.bashrc
     fi
     if [ ! `echo ${PATH} | grep $(pwd)/go/bin` ] ; then
       if [[ `cat ${HOME}/.bashrc | grep -e ^PATH` ]] ; then
-        sed -i -e "s|${PATH}|${PATH}:${HOME}/go/bin|g" ${HOME}/.bashrc
+        sed -i -e "s|${PATH}|${PATH}:/usr/local/go/bin|g" ${HOME}/.bashrc
       else
-        echo PATH=${PATH}:${HOME}/go/bin >> ${HOME}/.bashrc
+        echo PATH=${PATH}:/usr/local/go/bin >> ${HOME}/.bashrc
       fi
     fi
     source "${HOME}/.bashrc"
