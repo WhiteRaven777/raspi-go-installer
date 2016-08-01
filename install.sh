@@ -90,21 +90,17 @@ cd ${HOME}
 
 : "setup" && {
   if [ -e "${HOME}/.bashrc" ] ; then
-    if [[ -z "${GOROOT}" ]] ; then
-      if [[ `cat ${HOME}/.bashrc | grep GOROOT` ]] ; then
-        _line=`cat ${HOME}/.bashrc | grep GOROOT`
-        sed -i -e "s|${_line}|GOROOT=${HOME}/go|g" ${HOME}/.bashrc
-      else
-        echo GOROOT=${HOME}/go >> ${HOME}/.bashrc
-      fi
+    if [[ `cat ${HOME}/.bashrc | grep -e ^GOROOT` ]] ; then
+      _line=`cat ${HOME}/.bashrc | grep -e ^GOROOT`
+      sed -i -e "s|${_line}|GOROOT=${HOME}/go|g" ${HOME}/.bashrc
+    else
+      echo GOROOT=${HOME}/go >> ${HOME}/.bashrc
     fi
-    if [[ -z "${GOPATH}" ]] ; then
-      if [[ `cat ${HOME}/.bashrc | grep GOPATH` ]] ; then
-        _line=`cat ${HOME}/.bashrc | grep GOPATH`
-        sed -i -e "s|${_line}|GOPATH=${HOME}/go/lib|g" ${HOME}/.bashrc
-      else
-        echo GOPATH=${HOME}/go/lib >> ${HOME}/.bashrc
-      fi
+    if [[ `cat ${HOME}/.bashrc | grep -e ^GOPATH` ]] ; then
+      _line=`cat ${HOME}/.bashrc | grep -e ^GOPATH`
+      sed -i -e "s|${_line}|GOPATH=${HOME}/go/lib|g" ${HOME}/.bashrc
+    else
+      echo GOPATH=${HOME}/go/lib >> ${HOME}/.bashrc
     fi
     if [ ! `echo ${PATH} | grep $(pwd)/go/bin` ] ; then
       if [[ `cat ${HOME}/.bashrc | grep -e ^PATH` ]] ; then
