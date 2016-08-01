@@ -10,3 +10,9 @@ cd raspi-go-installer
 chmod +x ./install.sh
 ./install.sh
 ```
+
+### How to install xmllint.
+
+```
+sudo apt-get install libxml2-utils
+```
