@@ -90,11 +90,21 @@ cd ${HOME}
 : "setup" && {
   if [ -e "${HOME}/.bashrc" ] ; then
     if [[ -z "${GOPATH}" ]] ; then
-      echo GOPATH=`pwd`/go >> ${HOME}/.bashrc
+      if [[ `cat ${HOME}/.bashrc | grep GOPATH` ]] ; then
+        _line=`cat ${HOME}/.bashrc | grep GOPATH`
+        sed -i -e "s|${_line}|GOPATH=${HOME}/go|g" ${HOME}/.bashrc
+      else
+        echo GOPATH=${HOME}/go >> ${HOME}/.bashrc
+      fi
     fi
-    if [ ! `echo ${PATH} | grep "${GOPATH}/bin"` ] ; then
-      echo PATH=${PATH}:${GOPATH}/bin >> ${HOME}/.bashrc
+    if [ ! `echo ${PATH} | grep $(pwd)/go/bin` ] ; then
+      if [[ `cat ${HOME}/.bashrc | grep -e ^PATH` ]] ; then
+        sed -i -e "s|${PATH}|${PATH}:${HOME}/go/bin|g" ${HOME}/.bashrc
+      else
+        echo PATH=${PATH}:${HOME}/go/bin >> ${HOME}/.bashrc
+      fi
     fi
     source "${HOME}/.bashrc"
+    exec ${SHELL} --login
   fi
 }
