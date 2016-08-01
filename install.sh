@@ -106,7 +106,7 @@ cd ${HOME}
     else
       echo GOPATH=/usr/local/go/lib >> ${HOME}/.bashrc
     fi
-    if [ ! `echo ${PATH} | grep $(pwd)/go/bin` ] ; then
+    if [ ! `echo ${PATH} | grep /usr/local/go/bin` ] ; then
       if [[ `cat ${HOME}/.bashrc | grep -e ^PATH` ]] ; then
         sed -i -e "s|${PATH}|${PATH}:/usr/local/go/bin|g" ${HOME}/.bashrc
       else
