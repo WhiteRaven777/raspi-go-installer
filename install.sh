@@ -95,5 +95,6 @@ cd ${HOME}
     if [ ! `echo ${PATH} | grep "${GOPATH}/bin"` ] ; then
       echo PATH=${PATH}:${GOPATH}/bin >> ${HOME}/.bashrc
     fi
+    source "${HOME}/.bashrc"
   fi
 }
