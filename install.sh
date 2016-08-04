@@ -94,23 +94,23 @@ cd ${HOME}
 
 : "setup" && {
   if [ -e "${HOME}/.bashrc" ] ; then
-    if [[ `cat ${HOME}/.bashrc | grep -e ^GOROOT` ]] ; then
-      _line=`cat ${HOME}/.bashrc | grep -e ^GOROOT`
+    if [[ `cat ${HOME}/.bashrc | grep -e "^export GOROOT"` ]] ; then
+      _line=`cat ${HOME}/.bashrc | grep -e "^export GOROOT"`
       sed -i -e "s|${_line}|GOROOT=/usr/local/go|g" ${HOME}/.bashrc
     else
-      echo GOROOT=/usr/local/go >> ${HOME}/.bashrc
+      echo "export GOROOT=/usr/local/go" >> ${HOME}/.bashrc
     fi
-    if [[ `cat ${HOME}/.bashrc | grep -e ^GOPATH` ]] ; then
-      _line=`cat ${HOME}/.bashrc | grep -e ^GOPATH`
+    if [[ `cat ${HOME}/.bashrc | grep -e "^export GOPATH"` ]] ; then
+      _line=`cat ${HOME}/.bashrc | grep -e "^export GOPATH"`
       sed -i -e "s|${_line}|GOPATH=/usr/local/go/lib|g" ${HOME}/.bashrc
     else
-      echo GOPATH=/usr/local/go/lib >> ${HOME}/.bashrc
+      echo "export GOPATH=/usr/local/go/lib" >> ${HOME}/.bashrc
     fi
     if [ ! `echo ${PATH} | grep /usr/local/go/bin` ] ; then
-      if [[ `cat ${HOME}/.bashrc | grep -e ^PATH` ]] ; then
+      if [[ `cat ${HOME}/.bashrc | grep -e "^export PATH"` ]] ; then
         sed -i -e "s|${PATH}|${PATH}:/usr/local/go/bin|g" ${HOME}/.bashrc
       else
-        echo PATH=${PATH}:/usr/local/go/bin >> ${HOME}/.bashrc
+        echo "export PATH=${PATH}:/usr/local/go/bin" >> ${HOME}/.bashrc
       fi
     fi
     source "${HOME}/.bashrc"
